@@ -34,8 +34,10 @@ module "nodes" {
 
 module "alb" {
   source            = "./modules/alb"
-  public_subnet_ids = module.networking.public_subnet_ids
+  name              = "k3s"
   vpc_id            = module.vpc.vpc_id
+  public_subnet_ids = module.networking.public_subnet_ids
   sg_id             = module.security.alb_sg_id
-  target_id         = module.nodes.master_id
+  node_ip           = module.nodes.worker_private_ips[0]
+  node_port         = 30080
 }
